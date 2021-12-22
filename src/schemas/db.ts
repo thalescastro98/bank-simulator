@@ -20,25 +20,25 @@ export class TransactionTable{
     transactionTable:Transaction[]=[];
     newDeposit(id:string,amount:number){
         const dynamicDate = new Date();
-        const aux:Transaction={type:'credit',id:id,amount:amount,date:dynamicDate.toISOString(),descrition:`R$${amount.toFixed(2)} was deposited to id ${id}`};
-        this.transactionTable.push(aux);
-        return aux;
+        const deposit:Transaction={type:'credit',id:id,amount:amount,date:dynamicDate.toISOString(),descrition:`R$${amount.toFixed(2)} was deposited to id ${id}`};
+        this.transactionTable.push(deposit);
+        return deposit;
     }
     newWithdraw(id:string,amount:number){
         if(this.balanceCalculation(id)<amount) return {error:`ID ${id} does not have this amount of money.`};
         const dynamicDate = new Date();
-        const aux:Transaction={type:'debit',id:id,amount:-amount,date:dynamicDate.toISOString(),descrition:`Id ${id} withdrew R$${amount.toFixed(2)}`};
-        this.transactionTable.push(aux);
-        return aux;
+        const withdraw:Transaction={type:'debit',id:id,amount:-amount,date:dynamicDate.toISOString(),descrition:`Id ${id} withdrew R$${amount.toFixed(2)}`};
+        this.transactionTable.push(withdraw);
+        return withdraw;
     }
     newTransfer(id:string,amount:number,toId:string){        
         if(this.balanceCalculation(id)<amount) return {error:`ID ${id} does not have this amount of money.`};
         const dynamicDate = new Date();
-        const aux1:Transaction={type:'debit',id:id,amount:-amount,date:dynamicDate.toISOString(),descrition:`Id ${id} transferred R$${amount.toFixed(2)} to id ${toId}`};
-        this.transactionTable.push(aux1);
-        const aux2:Transaction={type:'credit',id:toId,amount:amount,date:dynamicDate.toISOString(),descrition:`Id ${id} transferred R$${amount.toFixed(2)} to id ${toId}`};
-        this.transactionTable.push(aux2);
-        return {from:aux1,to:aux2};
+        const transferFrom:Transaction={type:'debit',id:id,amount:-amount,date:dynamicDate.toISOString(),descrition:`Id ${id} transferred R$${amount.toFixed(2)} to id ${toId}`};
+        this.transactionTable.push(transferFrom);
+        const transferTo:Transaction={type:'credit',id:toId,amount:amount,date:dynamicDate.toISOString(),descrition:`Id ${id} transferred R$${amount.toFixed(2)} to id ${toId}`};
+        this.transactionTable.push(transferTo);
+        return {from:transferFrom,to:transferTo};
     }
     transactions(id:string | undefined){
         if(typeof id=== 'undefined') return this.transactionTable;
@@ -53,11 +53,12 @@ export class TransactionTable{
 }
 
 export class AdminTable{
-    adminTable:Admin[]=[{login:'admin',password:'bira'}];
+    adminTable:Admin[]=[{id:uuidv4(),login:'admin',password:'admin'}];
     register(login:string,password:string){
         if(this.adminTable.some((a:Admin)=> a.login===login)) return {error:'This login is already being used'};
-        this.adminTable.push({login:login,password:password});
-        return {login:login,password:password};
+        const newAdmin:Admin={id:uuidv4(),login:login,password:password}
+        this.adminTable.push(newAdmin);
+        return newAdmin;
     }
     verify(login:string,password:string){
         return this.adminTable.some(a => a.login===login && a.password==password);
