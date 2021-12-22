@@ -1,6 +1,6 @@
 import * as express from 'express';
-import { admins } from '../..';
-import { registerAdminSchema } from '../../schemas';
+import { admins } from '..';
+import { registerAdminSchema } from '../schemas';
 
 export const registerAdminRouter = express.Router();
 

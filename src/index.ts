@@ -1,10 +1,7 @@
 import * as express from 'express';
 import { authenticator } from './middlewares';
 import { UserTable,TransactionTable, AdminTable } from './schemas';
-import { registerRouter } from './register';
-import { transactionsRouter } from './transactions';
-import { balanceRouter } from './balance';
-import { registerAdminRouter } from './register';
+import { registerAdminRouter, registerRouter, transactionsRouter,balanceRouter } from './routes';
 // import {test} from './test';
 
 const app=express();
