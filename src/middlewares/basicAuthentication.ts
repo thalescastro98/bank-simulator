@@ -18,8 +18,3 @@ export const authenticator = (req:any,res:any,next:any) =>{
         next();
     }
 }
-
-// const check = (name:string,pass:string) =>{
-//     if(name=== 'admin' && pass === 'bira') return true
-//     return false
-// }
