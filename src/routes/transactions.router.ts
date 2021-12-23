@@ -10,7 +10,7 @@ transactionsRouter.get('/', (req:any,res:any) =>{
         res.statusCode=400;
         return res.send(query.error);
     }
-    if(query.value.id && !users.idValidation(query.value.id)){
+    if(query.value.id && users.userName(query.value.id)===''){
         res.statusCode=404;
         return res.send({error:'This ID is not registered'});
     }
@@ -25,28 +25,29 @@ transactionsRouter.post('/', (req:any,res:any) =>{
         res.statusCode = 400;
         return res.send(body.error);
     }
-
-    if(!users.idValidation(body.value.id)){
+    const nameFrom=users.userName(body.value.id)
+    if(nameFrom===''){
         res.statusCode=404;
         return res.send({error:'This ID is not registered'});
     }
 
     if(body.value.type==='deposit'){
-        return res.send(transactions.newDeposit(body.value.id,body.value.amount));
+        return res.send(transactions.newDeposit(body.value.id,nameFrom,body.value.amount));
     }
 
     if(body.value.type==='withdraw'){
-        const withdraw = transactions.newWithdraw(body.value.id,body.value.amount);
+        const withdraw = transactions.newWithdraw(body.value.id,nameFrom,body.value.amount);
         if('error' in withdraw) res.statusCode=400;
         return res.send(withdraw);
     }
 
     if(body.value.type='transfer' && body.value.toId){
-        if(!users.idValidation(body.value.toId)){
+        const nameTo=users.userName(body.value.toId)
+        if(nameTo===''){
             res.statusCode=404;
             return res.send({error:'This ID is not registered'});
         }
-        const transfer = transactions.newTransfer(body.value.id,body.value.amount,body.value.toId);
+        const transfer = transactions.newTransfer(body.value.id,nameFrom,body.value.amount,body.value.toId,nameTo);
         if(transfer.error) res.statusCode=400;
         return res.send(transfer);
     }

@@ -13,6 +13,6 @@ registerAdminRouter.post('/', (req:any,res:any) =>{
         return res.send(body.error);
     }
     const register = admins.register(body.value.login,body.value.password);
-    if(register.error) res.statusCode =409;
+    if('error' in register) res.statusCode =409;
     return res.send(register);
 });

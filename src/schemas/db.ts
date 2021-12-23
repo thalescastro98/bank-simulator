@@ -11,32 +11,34 @@ export class UserTable{
         this.userTable.push(user);
         return user;
     }
-    idValidation(id:string){
-        return this.userTable.some(a => a.id===id);
+    userName(id:string){
+        const ind = this.userTable.findIndex(a => a.id===id);
+        if(ind===-1) return '';
+        return this.userTable[ind].name;
     }
 }
 
 export class TransactionTable{
     transactionTable:Transaction[]=[];
-    newDeposit(id:string,amount:number){
+    newDeposit(id:string,name:string,amount:number){
         const dynamicDate = new Date();
-        const deposit:Transaction={type:'credit',id:id,amount:amount,date:dynamicDate.toISOString(),descrition:`R$${amount.toFixed(2)} was deposited to id ${id}`};
+        const deposit:Transaction={type:'credit',id:id,amount:amount,date:dynamicDate.toISOString(),descrition:`R$${amount.toFixed(2)} was deposited to ${name}`};
         this.transactionTable.push(deposit);
         return deposit;
     }
-    newWithdraw(id:string,amount:number){
-        if(this.balanceCalculation(id)<amount) return {error:`ID ${id} does not have this amount of money.`};
+    newWithdraw(id:string,name:string,amount:number){
+        if(this.balanceCalculation(id)<amount) return {error:`${name} does not have this amount of money.`};
         const dynamicDate = new Date();
-        const withdraw:Transaction={type:'debit',id:id,amount:-amount,date:dynamicDate.toISOString(),descrition:`Id ${id} withdrew R$${amount.toFixed(2)}`};
+        const withdraw:Transaction={type:'debit',id:id,amount:-amount,date:dynamicDate.toISOString(),descrition:`${name} withdrew R$${amount.toFixed(2)}`};
         this.transactionTable.push(withdraw);
         return withdraw;
     }
-    newTransfer(id:string,amount:number,toId:string){        
-        if(this.balanceCalculation(id)<amount) return {error:`ID ${id} does not have this amount of money.`};
+    newTransfer(id:string,nameFrom:string,amount:number,toId:string,nameTo:string){        
+        if(this.balanceCalculation(id)<amount) return {error:`${nameFrom} does not have this amount of money.`};
         const dynamicDate = new Date();
-        const transferFrom:Transaction={type:'debit',id:id,amount:-amount,date:dynamicDate.toISOString(),descrition:`Id ${id} transferred R$${amount.toFixed(2)} to id ${toId}`};
+        const transferFrom:Transaction={type:'debit',id:id,amount:-amount,date:dynamicDate.toISOString(),descrition:`${nameFrom} transferred R$${amount.toFixed(2)} to ${nameTo}`};
         this.transactionTable.push(transferFrom);
-        const transferTo:Transaction={type:'credit',id:toId,amount:amount,date:dynamicDate.toISOString(),descrition:`Id ${id} transferred R$${amount.toFixed(2)} to id ${toId}`};
+        const transferTo:Transaction={type:'credit',id:toId,amount:amount,date:dynamicDate.toISOString(),descrition:`${nameFrom} transferred R$${amount.toFixed(2)} to ${nameTo}`};
         this.transactionTable.push(transferTo);
         return {from:transferFrom,to:transferTo};
     }

@@ -10,9 +10,10 @@ balanceRouter.get('/:id', (req:any,res:any) =>{
         res.statusCode=400;
         return res.send(params.error);
     }
-    if(!users.idValidation(params.value.id)){
+    const name=users.userName(params.value.id)
+    if(name===''){
         res.statusCode=404;
         return res.send({error:'This ID is not registered'});
     }
-    return res.send({balance:transactions.balanceCalculation(params.value.id)});
+    return res.send({name:name,balance:transactions.balanceCalculation(params.value.id)});
 });
