@@ -13,7 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.24.0",
     "basic-auth": "^2.0.1",
     "cpf-cnpj-validator": "^1.0.3",
     "express": "^4.17.1",
