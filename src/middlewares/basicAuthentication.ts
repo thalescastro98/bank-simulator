@@ -1,20 +1,25 @@
 import * as auth from 'basic-auth';
-import { admins } from '..';
 import { credentialsSchema } from '../schemas';
+import { adminCredentialService } from '../service';
 
-export const authenticator = (req:any,res:any,next:any) =>{
+export const authenticator = async (req:any,res:any,next:any) =>{
     const credentials=credentialsSchema.validate(auth(req));
     if(credentials.error){
         res.statusCode=400;
         return res.send(credentials.error);
     }
-    if(!admins.verify(credentials.value.name,credentials.value.pass)){
-        res.statusCode = 401;
-        res.setHeader('WWW-Authenticate', 'Basic realm="example"')
-        return res.send({error:'Access denied'});
+    try{
+        const verifyCredentials = await adminCredentialService(credentials.value.name,credentials.value.pass);
+        if(verifyCredentials.status===200){
+            console.log(verifyCredentials.message);
+            next();            
+        }
+        else{
+            return res.status(verifyCredentials.status).send(verifyCredentials.message);
+        }
     }
-    else{
-        console.log(`Access successful as ${credentials.value.name}`);
-        next();
+    catch(err){
+        console.log(err)
+        return res.status(500).send({error:'Something went wrong.'});
     }
 }

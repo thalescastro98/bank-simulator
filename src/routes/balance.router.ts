@@ -1,19 +1,22 @@
 import * as express from 'express';
-import { users,transactions } from '..';
 import { getBalanceSchema } from '../schemas';
+import { balanceService } from '../service/balanceService';
 
 export const balanceRouter = express.Router();
 
-balanceRouter.get('/:id', (req:any,res:any) =>{
+balanceRouter.get('/:id', async (req:any,res:any) =>{
     const params= getBalanceSchema.validate(req.params);
     if(params.error){
         res.statusCode=400;
         return res.send(params.error);
     }
-    const name=users.userName(params.value.id)
-    if(name===''){
-        res.statusCode=404;
-        return res.send({error:'This ID is not registered'});
+
+    try{
+        const balanceRequest=await balanceService(params.value.id)
+        return res.status(balanceRequest.status).send(balanceRequest.message);
     }
-    return res.send({name:name,balance:transactions.balanceCalculation(params.value.id)});
+    catch(err){
+        console.log(err);
+        return res.status(500).send({error:'Something went wrong.'});
+    }
 });

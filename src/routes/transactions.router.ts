@@ -1,57 +1,42 @@
 import * as express from 'express';
 import { transactions,users } from '..';
-import { transactionsSchema,getTransictionsSchema } from '../schemas';
+import { transactionsSchema,getTransactionsSchema } from '../schemas';
+import { transactionsService } from '../service/transactionsService';
+import { getTransactionsService } from '../service/getTransactionsService';
 
 export const transactionsRouter = express.Router();
 
-transactionsRouter.get('/', (req:any,res:any) =>{
-    const query=getTransictionsSchema.validate(req.query);
+transactionsRouter.get('/', async (req:any,res:any) =>{
+    const query=getTransactionsSchema.validate(req.query);
     if(query.error){
         res.statusCode=400;
         return res.send(query.error);
     }
-    if(query.value.id && users.userName(query.value.id)===''){
-        res.statusCode=404;
-        return res.send({error:'This ID is not registered'});
+    
+    try {
+        const transactions = await getTransactionsService(query.value.id);
+        return res.status(transactions.status).send(transactions.message);
+    } 
+    catch (err) {
+        console.log(err);
+        return res.status(500).send({error:'Something went wrong.'});
     }
-    return res.send(transactions.transactions(req.query.id));
 });
 
 transactionsRouter.use(express.json());
 
-transactionsRouter.post('/', (req:any,res:any) =>{
+transactionsRouter.post('/', async (req:any,res:any) =>{
     const body=transactionsSchema.validate(req.body);
     if(body.error) {
         res.statusCode = 400;
         return res.send(body.error);
     }
-    const nameFrom=users.userName(body.value.id)
-    if(nameFrom===''){
-        res.statusCode=404;
-        return res.send({error:'This ID is not registered'});
-    }
 
-    if(body.value.type==='deposit'){
-        return res.send(transactions.newDeposit(body.value.id,nameFrom,body.value.amount));
+    try {
+        const transaction = await transactionsService(body.value.type,body.value.fromId,body.value.amount,body.value.toId);
+        return res.status(transaction.status).send(transaction.message);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({error:'Something went wrong.'});
     }
-
-    if(body.value.type==='withdraw'){
-        const withdraw = transactions.newWithdraw(body.value.id,nameFrom,body.value.amount);
-        if('error' in withdraw) res.statusCode=400;
-        return res.send(withdraw);
-    }
-
-    if(body.value.type='transfer' && body.value.toId){
-        const nameTo=users.userName(body.value.toId)
-        if(nameTo===''){
-            res.statusCode=404;
-            return res.send({error:'This ID is not registered'});
-        }
-        const transfer = transactions.newTransfer(body.value.id,nameFrom,body.value.amount,body.value.toId,nameTo);
-        if(transfer.error) res.statusCode=400;
-        return res.send(transfer);
-    }
-
-    res.statusCode=500;
-    return res.send({error:'Wrong set of informations.'});
 });
