@@ -16,7 +16,8 @@ export const transactionsService = async (type:string,fromId:string,amount:strin
     return transactionResponse;
 }
 
-export const getTransactionsService = (id:string|undefined) => {
+export const getTransactionsService = async (id:string|undefined) => {
     if(typeof id === 'undefined') return TransactionsDB.getAllTransactions();
+    const userName= await UserDB.userName(id);
     return TransactionsDB.getUserTransactions(id);
 }

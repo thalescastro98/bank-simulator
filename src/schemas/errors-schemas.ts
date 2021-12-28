@@ -1,13 +1,13 @@
 export class ErrorMessage{
-    status:number;
-    message:any;
-    constructor(status:number,message:any){
-        this.status=status;
-        this.message=message;
+    errorStatus:number;
+    errorMessage:any;
+    constructor(errorStatus:number,errorMessage:any){
+        this.errorStatus=errorStatus;
+        this.errorMessage=errorMessage;
     }
 }
 
 export const errorHandling = (res:any,err:any) => {
     console.log(err);
-    res.status( err.status ? err.status :500).send( err.message ? err.message : {error:'Something went wrong.'});
+    res.status( err.errorStatus ? err.errorStatus :500).send( err.errorMessage ? err.errorMessage : {error:'Something went wrong.'});
 }
