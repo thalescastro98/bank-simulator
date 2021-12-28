@@ -14,10 +14,10 @@ registerAdminRouter.post('/', async (req:any,res:any) =>{
     }
     try{
         const register = await registerAdminService(body.value.login,body.value.password);
-        return res.status(register.status).send(register.message);
+        return res.status(200).send(register);
     }
-    catch(err){
+    catch(err:any){
         console.log(err);
-        return res.status(500).send({error:'Something went wrong.'});
+        return res.status( err.status ? err.status :500).send( err.message ? err.message : {error:'Something went wrong.'});
     }
 });
