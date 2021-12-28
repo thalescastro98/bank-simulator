@@ -1,3 +1,3 @@
 export * from './db';
 export * from './joi-schemas';
-export * from './request-message';
+export * from './errors-schemas';

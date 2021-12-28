@@ -1,5 +1,5 @@
 import { pg } from ".";
-import { requestMessage } from "../schemas";
+import { ErrorMessage } from "../schemas";
 import { BalanceDB } from ".";
 
 export class TransactionsDB{
@@ -16,7 +16,7 @@ export class TransactionsDB{
         const transaction = await pg.transaction( async (trx) =>{
             const userBalance = await BalanceDB.getUserBalance(fromId,trx);
             if((userBalance.balance<(Number(amount))))
-                throw new requestMessage(400,{error:`This user don't have this amount of money.`});
+                throw new ErrorMessage(400,{error:`This user don't have this amount of money.`});
             const inserction = 
                     await trx('transactions')
                         .insert({type:'debit',fromid:fromId,amount:-amount,description:`${name} withdrew R$${amount}.`})
@@ -30,7 +30,7 @@ export class TransactionsDB{
         const transaction = await pg.transaction( async (trx) =>{
             const userBalance = await BalanceDB.getUserBalance(fromId,trx);
             if((userBalance.balance<(Number(amount))))
-                throw new requestMessage(400,{error:`This user don't have this amount of money.`});
+                throw new ErrorMessage(400,{error:`This user don't have this amount of money.`});
             const inserction1 =
                     await trx('transactions')
                         .insert({type:'debit',fromid:fromId,amount:-amount,description:`${fromName} transferred R$${amount} to ${toName}.`})
