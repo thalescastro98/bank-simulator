@@ -1,7 +1,14 @@
 import * as _Joi from "joi";
 import validator from "cpf-cnpj-validator";
+import { ErrorMessage } from ".";
 
 const Joi=_Joi.extend(validator);
+
+export const joiHandling = (schema:any,objectToBeEvaluated:any) => {
+    const result = schema.validate(objectToBeEvaluated);
+    if(result.error) throw new ErrorMessage(400,result.error);
+    return result.value;
+}
 
 export const transactionsSchema = Joi.object({
     type: Joi.string().pattern(new RegExp('^deposit$|^withdraw$|^transfer$')).required(),
@@ -33,3 +40,4 @@ export const getTransactionsSchema = Joi.object({
 export const getBalanceSchema = Joi.object({
     id:Joi.string().guid({version:'uuidv4'}).required()
 });
+

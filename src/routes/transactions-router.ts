@@ -1,14 +1,13 @@
 import * as express from 'express';
-import { transactionsSchema,getTransactionsSchema, errorHandling } from '../schemas';
+import { transactionsSchema,getTransactionsSchema, errorHandling, joiHandling } from '../schemas';
 import { getTransactionsService,transactionsService } from '../service';
 
 export const transactionsRouter = express.Router();
 
-transactionsRouter.get('/', async (req:any,res:any) =>{
-    const query=getTransactionsSchema.validate(req.query);
-    if(query.error) return res.status(400).send(query.error);    
+transactionsRouter.get('/', async (req:any,res:any) =>{   
     try {
-        const transactions = await getTransactionsService(query.value.id);
+        const query = joiHandling(getTransactionsSchema,req.query);
+        const transactions = await getTransactionsService(query.id);
         return res.status(200).send(transactions);
     } 
     catch (err:any) {
@@ -19,10 +18,9 @@ transactionsRouter.get('/', async (req:any,res:any) =>{
 transactionsRouter.use(express.json());
 
 transactionsRouter.post('/', async (req:any,res:any) =>{
-    const body=transactionsSchema.validate(req.body);
-    if(body.error) return res.status(400).send(body.error);
     try {
-        const transaction = await transactionsService(body.value.type,body.value.fromId,body.value.amount,body.value.toId);
+        const body = joiHandling(transactionsSchema,req.body);
+        const transaction = await transactionsService(body.type,body.fromId,body.amount,body.toId);
         return res.status(200).send(transaction);
     }
     catch (err:any) {
