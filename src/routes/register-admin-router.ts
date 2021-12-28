@@ -8,10 +8,7 @@ registerAdminRouter.use(express.json());
 
 registerAdminRouter.post('/', async (req:any,res:any) =>{
     const body = registerAdminSchema.validate(req.body);
-    if(body.error){
-        res.statusCode =400;
-        return res.send(body.error);
-    }
+    if(body.error) return res.status(400).send(body.error);
     try{
         const register = await registerAdminService(body.value.login,body.value.password);
         return res.status(200).send(register);
