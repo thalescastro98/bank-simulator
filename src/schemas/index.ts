@@ -1,3 +1,3 @@
 export * from './db';
-export * from './joiSchemas';
-export * from './requestMessage';
+export * from './joi-schemas';
+export * from './request-message';

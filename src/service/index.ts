@@ -1,3 +1,3 @@
-export * from './registerService';
-export * from './registerAdminService';
-export * from './adminCredentialService';
+export * from './register-service';
+export * from './register-admin-service';
+export * from './admin-credential-service';

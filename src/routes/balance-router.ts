@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { getBalanceSchema } from '../schemas';
-import { balanceService } from '../service/balanceService';
+import { balanceService } from '../service/balance-service';
 
 export const balanceRouter = express.Router();
 

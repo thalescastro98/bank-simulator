@@ -1,8 +1,8 @@
 import * as express from 'express';
 import { transactions,users } from '..';
 import { transactionsSchema,getTransactionsSchema } from '../schemas';
-import { transactionsService } from '../service/transactionsService';
-import { getTransactionsService } from '../service/getTransactionsService';
+import { transactionsService } from '../service/transactions-service';
+import { getTransactionsService } from '../service/get-transactions-service';
 
 export const transactionsRouter = express.Router();
 

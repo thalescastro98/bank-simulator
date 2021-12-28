@@ -1,1 +1,1 @@
-export * from './basicAuthentication'
+export * from './basic-authentication'
