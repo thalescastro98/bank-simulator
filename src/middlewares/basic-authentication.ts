@@ -1,5 +1,5 @@
 import * as auth from 'basic-auth';
-import { credentialsSchema } from '../schemas';
+import { credentialsSchema, errorHandling } from '../schemas';
 import { adminCredentialService } from '../service';
 
 export const authenticator = async (req:any,res:any,next:any) =>{
@@ -14,7 +14,6 @@ export const authenticator = async (req:any,res:any,next:any) =>{
         else return res.status(500).send({error:'Something went wrong.'});
     }
     catch(err:any){
-        console.log(err)
-        return res.status( err.status ? err.status :500).send( err.message ? err.message : {error:'Something went wrong.'});
+        return errorHandling(res,err);
     }
 }
