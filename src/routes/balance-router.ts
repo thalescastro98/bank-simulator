@@ -13,10 +13,10 @@ balanceRouter.get('/:id', async (req:any,res:any) =>{
 
     try{
         const balanceRequest=await balanceService(params.value.id)
-        return res.status(balanceRequest.status).send(balanceRequest.message);
+        return res.status(200).send(balanceRequest);
     }
-    catch(err){
+    catch(err:any){
         console.log(err);
-        return res.status(500).send({error:'Something went wrong.'});
+        return res.status( err.status ? err.status :500).send( err.message ? err.message : {error:'Something went wrong.'});
     }
 });
