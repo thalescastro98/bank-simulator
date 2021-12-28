@@ -45,12 +45,12 @@ export class TransactionsDB{
     }
 
     static getAllTransactions = async () => {
-        const allTransaction = await pg.raw(`select * from transactions;`);
+        const allTransaction = await pg.raw(`select * from transactions order by date desc;`);
         return allTransaction.rows;
     }
 
     static getUserTransactions = async (fromId:string) => {
-        const userTransaction = await pg.raw(`select * from transactions where fromId=?;`,[fromId]);
+        const userTransaction = await pg.raw(`select * from transactions where fromId=? order by date desc;`,[fromId]);
         return userTransaction.rows;
     }
 }
