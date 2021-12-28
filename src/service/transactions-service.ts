@@ -22,3 +22,8 @@ export const transactionsService = async (type:string,fromId:string,amount:strin
         return new requestMessage(500,{error:'Something went wrong.'});
     }
 }
+
+export const getTransactionsService = (id:string|undefined) => {
+    if(typeof id === 'undefined') return TransactionsDB.getAllTransactions();
+    return TransactionsDB.getUserTransactions(id);
+}
