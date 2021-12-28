@@ -1,5 +1,4 @@
 import * as express from 'express';
-import { users } from '..';
 import { registerUserSchema } from '../schemas';
 import { registerUserService } from '../service';
 
@@ -15,14 +14,10 @@ registerRouter.post('/', async (req:any,res:any) =>{
     }
     try{
         const requestResult = await registerUserService(body.value.cpf,body.value.name,body.value.email)
-        return res.status(requestResult.status).send(requestResult.message);
+        return res.status(200).send(requestResult);
     }
-    catch(err){
+    catch(err:any){
         console.log(err);
-        return res.status(500).send({error:'Something went wrong.'});
+        return res.status( err.status ? err.status :500).send( err.message ? err.message : {error:'Something went wrong.'});
     }
-    // const registration = users.register(body.value.cpf,body.value.name,body.value.email);
-    // if('error' in registration) res.statusCode = 409;
-
-    // return res.send(registration);
 });

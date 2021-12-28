@@ -1,6 +1,5 @@
 import { Knex } from "knex";
 import { pg } from ".";
-import { requestMessage } from "../schemas";
 
 export class BalanceDB{
     static getUserBalance = async (id:string,trx?:Knex.Transaction<any, any[]>) => {
