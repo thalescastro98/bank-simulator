@@ -4,83 +4,53 @@ import { BalanceDB } from ".";
 
 export class TransactionsDB{
     static newDeposit = async (fromId:string,name:string,amount:string) => {
-        try{
-            const transaction = await pg.raw(`
+        const transaction = await pg.raw(`
             insert into transactions (type,fromId,amount,description)
             values ('credit',?,?,?)
             returning *;
             `,[fromId,amount,`${name} deposited R$${amount}.`]);
-            return new requestMessage(200,transaction.rows[0]);
-        }
-        catch(err){
-            console.log(err);
-            return new requestMessage(500,{error:'Something went wrong.'});
-        }
+        return transaction.rows[0];
     }
 
     static newWithdraw = async (fromId:string,name:string,amount:string) =>{
-        try{
-            const transaction = await pg.transaction( async (trx) =>{
-                try {
-                    const userBalance = await BalanceDB.getUserBalance(fromId,trx);
-                    if((userBalance.balance<(Number(amount))))
-                        return new requestMessage(400,{error:`This user don't have this amount of money.`});
-                    const inserction = await trx('transactions').insert({type:'debit',fromid:fromId,amount:-amount,description:`${name} withdrew R$${amount}.`}).returning('*');
-                    return new requestMessage(200,inserction[0]);
-                } catch (err) {
-                    console.log(err);
-                    return new requestMessage(500,{error:'Something went wrong.'});
-                }
-            });
-            return transaction;
-        }
-        catch(err){
-            console.log(err);
-            return new requestMessage(500,{error:'Something went wrong.'});
-        }
+        const transaction = await pg.transaction( async (trx) =>{
+            const userBalance = await BalanceDB.getUserBalance(fromId,trx);
+            if((userBalance.balance<(Number(amount))))
+                throw new requestMessage(400,{error:`This user don't have this amount of money.`});
+            const inserction = 
+                    await trx('transactions')
+                        .insert({type:'debit',fromid:fromId,amount:-amount,description:`${name} withdrew R$${amount}.`})
+                        .returning('*');
+            return inserction[0];
+        });
+        return transaction;
     }
 
     static newTransfer = async (fromId:string,fromName:string,amount:string,toId:string,toName:string) =>{
-        try{
-            if(fromId===toId) return new requestMessage(400,{error:`A ID can't transfer money to yourself.`});
-            const transaction = await pg.transaction( async (trx) =>{
-                try {
-                    const userBalance = await BalanceDB.getUserBalance(fromId,trx);
-                    if((userBalance.balance<(Number(amount))))
-                        return new requestMessage(400,{error:`This user don't have this amount of money.`});
-                    const inserction1 = await trx('transactions').insert({type:'debit',fromid:fromId,amount:-amount,description:`${fromName} transferred R$${amount} to ${toName}.`}).returning('*');
-                    const inserction2 = await trx('transactions').insert({type:'credit',fromid:toId,amount:amount,description:`${fromName} transferred R$${amount} to ${toName}.`}).returning('*');
-                    return new requestMessage(200,{from:inserction1[0],to:inserction2[0]});
-                } catch (err) {
-                    console.log(err);
-                    return new requestMessage(500,{error:'Something went wrong.'});
-                }
-            });
-            return transaction;
-        }
-        catch(err){
-            console.log(err);
-            return new requestMessage(500,{error:'Something went wrong.'});
-        }
+        const transaction = await pg.transaction( async (trx) =>{
+            const userBalance = await BalanceDB.getUserBalance(fromId,trx);
+            if((userBalance.balance<(Number(amount))))
+                throw new requestMessage(400,{error:`This user don't have this amount of money.`});
+            const inserction1 =
+                    await trx('transactions')
+                        .insert({type:'debit',fromid:fromId,amount:-amount,description:`${fromName} transferred R$${amount} to ${toName}.`})
+                        .returning('*');
+            const inserction2 = 
+                    await trx('transactions')
+                        .insert({type:'credit',fromid:toId,amount:amount,description:`${fromName} transferred R$${amount} to ${toName}.`})
+                        .returning('*');
+            return {from:inserction1[0],to:inserction2[0]};
+        });
+        return transaction;
     }
 
     static getAllTransactions = async () => {
-        try {
-            const allTransaction = await pg.raw(`select * from transactions;`);
-            return new requestMessage(200,allTransaction.rows);
-        } catch (err) {
-            console.log(err);
-            return new requestMessage(500,{error:'Something went wrong.'});
-        }
+        const allTransaction = await pg.raw(`select * from transactions;`);
+        return allTransaction.rows;
     }
 
     static getUserTransactions = async (fromId:string) => {
-        try {
-            const userTransaction = await pg.raw(`select * from transactions where fromId=?;`,[fromId]);
-            return new requestMessage(200,userTransaction.rows);
-        } catch (err) {
-            console.log(err);
-            return new requestMessage(500,{error:'Something went wrong.'});
-        }
+        const userTransaction = await pg.raw(`select * from transactions where fromId=?;`,[fromId]);
+        return userTransaction.rows;
     }
 }

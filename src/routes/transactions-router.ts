@@ -1,5 +1,4 @@
 import * as express from 'express';
-import { transactions,users } from '..';
 import { transactionsSchema,getTransactionsSchema } from '../schemas';
 import { getTransactionsService,transactionsService } from '../service';
 
@@ -14,11 +13,11 @@ transactionsRouter.get('/', async (req:any,res:any) =>{
     
     try {
         const transactions = await getTransactionsService(query.value.id);
-        return res.status(transactions.status).send(transactions.message);
+        return res.status(200).send(transactions);
     } 
-    catch (err) {
+    catch (err:any) {
         console.log(err);
-        return res.status(500).send({error:'Something went wrong.'});
+        return res.status( err.status ? err.status :500).send( err.message ? err.message : {error:'Something went wrong.'});
     }
 });
 
@@ -33,9 +32,9 @@ transactionsRouter.post('/', async (req:any,res:any) =>{
 
     try {
         const transaction = await transactionsService(body.value.type,body.value.fromId,body.value.amount,body.value.toId);
-        return res.status(transaction.status).send(transaction.message);
-    } catch (err) {
+        return res.status(200).send(transaction);
+    } catch (err:any) {
         console.log(err);
-        return res.status(500).send({error:'Something went wrong.'});
+        return res.status( err.status ? err.status :500).send( err.message ? err.message : {error:'Something went wrong.'});
     }
 });
