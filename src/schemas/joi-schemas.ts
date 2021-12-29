@@ -6,7 +6,7 @@ const Joi=_Joi.extend(validator);
 
 export const joiHandling = (schema:any,objectToBeEvaluated:any) => {
     const result = schema.validate(objectToBeEvaluated);
-    if(result.error) throw new ErrorMessage(400,result.error);
+    if(result.error) throw new ErrorMessage(400,result.error.details);
     return result.value;
 }
 

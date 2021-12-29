@@ -10,7 +10,7 @@ export const transactionsService = async (type:string,fromId:string,amount:strin
     if(type==='transfer'){
         if(typeof toId==='undefined') throw new ErrorMessage(400,{error:'Missing information.'});
         const toUserName = await UserDB.userName(toId);
-        if(fromId===toId) throw new ErrorMessage(400,{error:`A ID can't transfer money to yourself.`});
+        if(fromId===toId) throw new ErrorMessage(400,{error:`A user can't transfer money to yourself.`});
         transactionResponse = await TransactionsDB.newTransfer(fromId,fromUserName,amount,toId,toUserName);
     }
     return transactionResponse;
