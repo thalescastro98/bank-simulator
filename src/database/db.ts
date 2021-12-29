@@ -9,5 +9,8 @@ export const pg=knex({
       user : process.env.POSTGRES_USER || 'postgres',
       password : process.env.POSTGRES_PASSWORD,
       database : process.env.POSTGRES_DATABASE
+    },
+    migrations:{
+      directory:'./src/database/migrations'
     }
   });

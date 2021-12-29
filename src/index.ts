@@ -1,6 +1,12 @@
 import * as express from 'express';
 import { authenticator } from './middlewares';
 import { registerAdminRouter, registerRouter, transactionsRouter,balanceRouter } from './routes';
+import { pg } from './database';
+require('dotenv').config();
+
+(async () => {
+    await pg.migrate.latest();
+})();
 
 const app=express();
 
@@ -18,6 +24,6 @@ app.use('/balance',balanceRouter);
 
 app.use('/register/admin',registerAdminRouter);
 
-app.listen(8080,()=>{
-    console.log('start');
+app.listen(process.env.APP_PORT || 8080,()=>{
+    console.log(`Server listening on ${process.env.APP_PORT || 8080}`);
 });
