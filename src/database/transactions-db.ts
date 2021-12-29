@@ -5,7 +5,7 @@ import { BalanceDB } from ".";
 export class TransactionsDB{
     static newDeposit = async (fromId:string,name:string,amount:string) => {
         const transaction = await pg.raw(`
-            insert into transactions (type,fromId,amount,description)
+            insert into transactions (type,"fromId",amount,description)
             values ('credit',?,?,?)
             returning *;
             `,[fromId,amount,`${name} deposited R$${amount}.`]);
@@ -19,7 +19,7 @@ export class TransactionsDB{
                 throw new ErrorMessage(400,{error:`This user don't have this amount of money.`});
             const inserction = 
                     await trx('transactions')
-                        .insert({type:'debit',fromid:fromId,amount:-amount,description:`${name} withdrew R$${amount}.`})
+                        .insert({type:'debit',fromId:fromId,amount:-amount,description:`${name} withdrew R$${amount}.`})
                         .returning('*');
             return inserction[0];
         });
@@ -33,11 +33,11 @@ export class TransactionsDB{
                 throw new ErrorMessage(400,{error:`This user don't have this amount of money.`});
             const inserction1 =
                     await trx('transactions')
-                        .insert({type:'debit',fromid:fromId,amount:-amount,description:`${fromName} transferred R$${amount} to ${toName}.`})
+                        .insert({type:'debit',fromId:fromId,amount:-amount,description:`${fromName} transferred R$${amount} to ${toName}.`})
                         .returning('*');
             const inserction2 = 
                     await trx('transactions')
-                        .insert({type:'credit',fromid:toId,amount:amount,description:`${fromName} transferred R$${amount} to ${toName}.`})
+                        .insert({type:'credit',fromId:toId,amount:amount,description:`${fromName} transferred R$${amount} to ${toName}.`})
                         .returning('*');
             return {from:inserction1[0],to:inserction2[0]};
         });
@@ -50,7 +50,7 @@ export class TransactionsDB{
     }
 
     static getUserTransactions = async (fromId:string) => {
-        const userTransaction = await pg.raw(`select * from transactions where fromId=? order by date desc;`,[fromId]);
+        const userTransaction = await pg.raw(`select * from transactions where "fromId"=? order by date desc;`,[fromId]);
         return userTransaction.rows;
     }
 }

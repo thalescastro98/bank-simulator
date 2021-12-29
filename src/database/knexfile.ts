@@ -1,6 +1,7 @@
-import knex from "knex";
+// Update with your config settings.
 
-export const pg=knex({
+module.exports = {
+  development: {
     client: 'pg',
     connection: {
       host : 'localhost',
@@ -9,4 +10,5 @@ export const pg=knex({
       password : 'password',
       database : 'bank_simulator'
     }
-  });
+  }
+};
