@@ -10,8 +10,8 @@
     "start:dev": "ts-node /src/index.ts",
     "dev": "nodemon ./src/index.ts",
     "sync:dev": "nodemon -L ./src/index.ts",
-    "migrate": "npx knex migrate:latest --knexfile src/database/knexfile.ts",
-    "migrate:rollback": "npx knex migrate:rollback --knexfile src/database/knexfile.ts"
+    "migrate": "knex migrate:latest --knexfile src/database/knexfile.ts",
+    "migrate:rollback": "knex migrate:rollback --knexfile src/database/knexfile.ts"
   },
   "author": "",
   "license": "ISC",
