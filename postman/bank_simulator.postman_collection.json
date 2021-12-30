@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "a786835f-ccce-4916-bd69-9374df62f0ea",
-		"name": "collection",
+		"name": "bank_simulator",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -27,7 +27,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"joao\",\r\n    \"cpf\":\"69018533009\",\r\n    \"email\":\"confia3@hotmail.com\"\r\n}",
+					"raw": "{\r\n    \"name\":\"john\",\r\n    \"cpf\":\"77180560073\",\r\n    \"email\":\"example@hotmail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -91,6 +91,132 @@
 			"response": []
 		},
 		{
+			"name": "create deposit transaction",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\":\"deposit\",\r\n    \"fromId\":\"75e4bdfc-5df9-4fa1-afa8-c870302fb1b2\",\r\n    \"amount\":\"123.45\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create withdraw transaction",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\":\"withdraw\",\r\n    \"fromId\":\"75e4bdfc-5df9-4fa1-afa8-c870302fb1b2\",\r\n    \"amount\":\"123.45\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create transfer transaction",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\":\"transfer\",\r\n    \"fromId\":\"75e4bdfc-5df9-4fa1-afa8-c870302fb1b2\",\r\n    \"amount\":\"123.45\",\r\n    \"toId\":\"07a50b45-37c3-47dd-a7ab-f92ee0ac214c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/transactions",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "get balance",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -123,56 +249,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/balance/7bd0bf21-47d2-48ca-bdfa-9110dabfa3c4",
+					"raw": "localhost:8080/balance/75e4bdfc-5df9-4fa1-afa8-c870302fb1b2",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"balance",
-						"7bd0bf21-47d2-48ca-bdfa-9110dabfa3c4"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create transaction",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
-						{
-							"key": "password",
-							"value": "admin",
-							"type": "string"
-						},
-						{
-							"key": "username",
-							"value": "admin",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"type\":\"deposit\",\r\n    \"fromId\":\"be4d4d1c-0b52-4880-a799-8da60948d785\",\r\n    \"amount\":\"123.45\",\r\n    \"toId\":\"51fbf1f5-7b30-4809-b8a4-d8246b036123\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/transactions",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"transactions"
+						"75e4bdfc-5df9-4fa1-afa8-c870302fb1b2"
 					]
 				}
 			},
@@ -211,7 +295,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/transactions?id=7bd0bf21-47d2-48ca-bdfa-9110dabfa3c4",
+					"raw": "localhost:8080/transactions?id=75e4bdfc-5df9-4fa1-afa8-c870302fb1b2",
 					"host": [
 						"localhost"
 					],
@@ -222,7 +306,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "7bd0bf21-47d2-48ca-bdfa-9110dabfa3c4"
+							"value": "75e4bdfc-5df9-4fa1-afa8-c870302fb1b2"
 						}
 					]
 				}
