@@ -1,5 +1,5 @@
-import { AdminDB } from "../database";
+import { AdminDB } from '../database';
 
-export const adminCredentialService = (login:string,password:string) => {
-    return AdminDB.verifyAdminDB(login,password);
-}
+export const adminCredentialService = (login: string, password: string) => {
+  return AdminDB.verifyAdminDB(login, password);
+};

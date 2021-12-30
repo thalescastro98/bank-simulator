@@ -10,7 +10,8 @@
     "start:dev": "ts-node /src/index.ts",
     "dev": "nodemon ./src/index.ts",
     "sync:dev": "nodemon -L ./src/index.ts",
-    "create_migration": "knex migrate:make --migrations-directory ./src/database/migrations -x ts"
+    "create_migration": "knex migrate:make --migrations-directory ./src/database/migrations -x ts",
+    "lint": "eslint \"{src,test}/**/*.ts\" --fix"
   },
   "author": "",
   "license": "ISC",
