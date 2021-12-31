@@ -20,7 +20,7 @@ export const transactionsSchema = Joi.object({
 export const registerUserSchema = Joi.object({
   cpf: Joi.document().cpf().length(11).required(),
   name: Joi.string().pattern(new RegExp('^[a-zA-Z]{3,30}$')).required(),
-  email: Joi.string().email().required(),
+  email: Joi.string().email().max(100).required(),
 });
 
 export const credentialsSchema = Joi.object({

@@ -6,7 +6,7 @@ export class BalanceDB {
     let userBalance;
     if (typeof trx !== 'undefined') userBalance = await trx.raw('select sum(amount) from transactions where "fromId"=?', [id]);
     else userBalance = await pg.raw('select sum(amount) from transactions where "fromId"=?', [id]);
-    if (userBalance.rows[0].sum === null) return { id: id, balance: 0 };
+    if (userBalance.rows[0].sum === null) return { id: id, balance: '0.00' };
     return { id: id, balance: userBalance.rows[0].sum as number };
   };
 }
