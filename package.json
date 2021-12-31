@@ -1,5 +1,5 @@
 {
-  "name": "typescriptcf",
+  "name": "bank-simulator",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,11 +9,10 @@
     "build": "tsc index.ts",
     "start:dev": "ts-node /src/index.ts",
     "dev": "nodemon ./src/index.ts",
-    "sync:dev": "nodemon -L ./src/index.ts",
     "create_migration": "knex migrate:make --migrations-directory ./src/database/migrations -x ts",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix"
   },
-  "author": "",
+  "author": "Thales Castro de Oliveira",
   "license": "ISC",
   "dependencies": {
     "basic-auth": "^2.0.1",
