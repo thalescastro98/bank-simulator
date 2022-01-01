@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "pretest": "knex migrate:latest --knexfile tests/test-knexfile.ts",
     "test": "jest",
+    "posttest": "knex migrate:rollback --knexfile tests/test-knexfile.ts",
     "start": "node index.js",
     "build": "tsc index.ts",
     "start:dev": "ts-node /src/index.ts",
