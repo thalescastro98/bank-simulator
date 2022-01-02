@@ -27,7 +27,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"john\",\r\n    \"cpf\":\"77180560073\",\r\n    \"email\":\"example@hotmail.com\"\r\n}",
+					"raw": "{\r\n    \"name\":\"john\",\r\n    \"cpf\":\"77180560073\",\r\n    \"email\":\"example@gmail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
