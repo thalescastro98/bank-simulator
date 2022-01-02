@@ -8,15 +8,9 @@ describe('Get balance test', () => {
   let app: any;
   beforeAll(async () => {
     app = buildApp();
-    // await pg.migrate.latest();
     return;
   });
 
-  // afterAll(async () => {
-  //   await pg.migrate.rollback();
-  //   await pg.destroy();
-  //   return;
-  // });
   it('Get balance of a user', async () => {
     const firstUser = await registerUser(app, 'firstgetbalanceuser', cpf.generate(), 'firstgetbalanceuser@gmail.com');
     const secondUser = await registerUser(app, 'secondgetbalanceuser', cpf.generate(), 'secondgetbalanceuser@gmail.com');

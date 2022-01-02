@@ -7,15 +7,9 @@ describe('Register admin tests', () => {
   let app: any;
   beforeAll(async () => {
     app = buildApp();
-    // await pg.migrate.latest();
     return;
   });
 
-  // afterAll(async () => {
-  //   await pg.migrate.rollback();
-  //   await pg.destroy();
-  //   return;
-  // });
   it('Create new admin successfully', async () => {
     const response = await registerAdmin(app, 'newadmin', 'newpassword');
     expect(response.status).toBe(200);

@@ -6,15 +6,8 @@ describe('Basic authentication test for admin', () => {
   let app: any;
   beforeAll(async () => {
     app = buildApp();
-    // await pg.migrate.latest();
     return;
   });
-
-  // afterAll(async () => {
-  //   await pg.migrate.rollback();
-  //   await pg.destroy();
-  //   return;
-  // });
 
   it('Successful authentication', async () => {
     const response = await request(app).get('/').auth('admin', 'admin', { type: 'basic' });

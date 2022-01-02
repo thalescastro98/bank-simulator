@@ -7,15 +7,8 @@ describe('Register Users tests', () => {
   let app: any;
   beforeAll(async () => {
     app = buildApp();
-    // await pg.migrate.latest();
     return;
   });
-
-  // afterAll(async () => {
-  //   await pg.migrate.rollback();
-  //   await pg.destroy();
-  //   return;
-  // });
 
   it('Create new admin successfully', async () => {
     const userCPF = cpf.generate();

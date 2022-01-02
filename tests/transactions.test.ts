@@ -8,15 +8,8 @@ describe('Transactions test', () => {
   let app: any;
   beforeAll(async () => {
     app = buildApp();
-    // await pg.migrate.latest();
     return;
   });
-
-  // afterAll(async () => {
-  //   await pg.migrate.rollback();
-  //   await pg.destroy();
-  //   return;
-  // });
 
   describe('Deposit tests', () => {
     it('Make a new deposit', async () => {
