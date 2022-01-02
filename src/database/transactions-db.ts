@@ -4,14 +4,11 @@ import { BalanceDB } from '.';
 
 export class TransactionsDB {
   static newDeposit = async (fromId: string, name: string, amount: string) => {
-    const transaction = await pg.raw(
-      `
-            insert into transactions (type,"fromId",amount,description)
-            values ('credit',?,?,?)
-            returning *;
-            `,
-      [fromId, amount, `${name} deposited R$${amount}.`],
-    );
+    const transaction = await pg.raw('INSERT INTO transactions (type,"fromId",amount,description) VALUES (\'credit\',?,?,?) RETURNING *;', [
+      fromId,
+      amount,
+      `${name} deposited R$${amount}.`,
+    ]);
     return transaction.rows[0];
   };
 
@@ -43,12 +40,12 @@ export class TransactionsDB {
   };
 
   static getAllTransactions = async () => {
-    const allTransaction = await pg.raw('select * from transactions order by date desc;');
+    const allTransaction = await pg.raw('SELECT * FROM transactions ORDER BY date DESC;');
     return allTransaction.rows;
   };
 
   static getUserTransactions = async (fromId: string) => {
-    const userTransaction = await pg.raw('select * from transactions where "fromId"=? order by date desc;', [fromId]);
+    const userTransaction = await pg.raw('SELECT * FROM transactions WHERE "fromId"=? ORDER BY date DESC;', [fromId]);
     return userTransaction.rows;
   };
 }
