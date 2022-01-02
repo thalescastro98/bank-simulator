@@ -21,9 +21,9 @@ Aiming to become a back-end developer and test my skills, I developed this API t
 
 - `npm run dev` - starts the local server
 
-- `npm run test`: runs all tests
+- `npm run test` - runs all tests
 
-- `npm run docker-postgres`: starts a local PostgreSQL instance for tests/local development
+- `npm run docker-postgres` - starts a local PostgreSQL instance for tests/local development
 
 Note: Remember to use the `npm run docker-postgres` command before using the `npm run dev` and `npm run test` commands.
 
@@ -33,11 +33,11 @@ First, remember that accessing any endpoint requires a Basic Authorization `logi
 
 All information sent goes through a Joi Validator. If the information format is different from the expected format, an error will be returned.
 
-### GET '/'
+### GET `/`
 
 This endpoint is just to test if the server is working without problems. It should return `Working`.
 
-### POST '/register'
+### POST `/register`
 
 An endpoint for registering new users. You need to send a json with the fields `name`, `cpf` and `email`. An example of a valid json:
 
@@ -60,7 +60,7 @@ If the registration is successful, a json with `id`, `name`, `cpf` and `email` o
 }
 ```
 
-### POST '/register/admin'
+### POST `/register/admin`
 
 An endpoint to register a new administrator. An administrator has only an ID (uuid), a login and a password, where the login and password are used by Basic Authorization. As said, the login `admin` with the password `admin` is already an administrator by default. On this endpoint, a json with the `login` and `password` fields must be sent. For example:
 
@@ -83,11 +83,11 @@ If the registration is successful, a json with `id`, `login` and `password` of t
 
 As a result of registration, Basic Authorization will allow `example:123456` as a valid `login:password`.
 
-### POST '/transactions'
+### POST `/transactions`
 
 This endpoint will be where deposit, withdraw and transfer transactions occur.
 
-To make a deposit or withdraw, you need to send a json with `type` (this must be 'deposit' or 'withdraw'), `fromId` (uuid of the user who will perform the operation) and `amount`. For example:
+To make a deposit or withdraw, you need to send a json with `type` (this must be `deposit` or `withdraw`), `fromId` (uuid of the user who will perform the operation) and `amount`. For example:
 
 ```
 {
@@ -97,7 +97,7 @@ To make a deposit or withdraw, you need to send a json with `type` (this must be
 }
 ```
 
-If a deposit succeeds, a json will be returned with `id` (uuid of the operation), `type` (in this case it will be 'credit'), `fromId` (uuid of the depositing user), `amount`, `date ` (UTC) and `description` (a brief description of the operation). Something like:
+If a deposit succeeds, a json will be returned with `id` (uuid of the operation), `type` (in this case it will be `credit`), `fromId` (uuid of the depositing user), `amount`, `date` (UTC) and `description` (a brief description of the operation). Something like:
 
 ```
 {
@@ -112,7 +112,7 @@ If a deposit succeeds, a json will be returned with `id` (uuid of the operation)
 
 If a withdraw is successful (when sending a json with `withdraw` in `type`), the json returned will be similar to the above, but `type` will be `debit`, `amount` will be negative and `description` will change.
 
-To make a transfer, `type` must be 'transfer' and json must contain a `toId` (uuid of the user who will receive the money). For example:
+To make a transfer, `type` must be `transfer` and json must contain a `toId` (uuid of the user who will receive the money). For example:
 
 ```
 {
@@ -146,7 +146,7 @@ If the transfer is successful, a json will be returned with `from` and `to`, whe
 }
 ```
 
-### GET '/transactions'
+### GET `/transactions`
 
 This endpoint has `id` as an optional parameter. If no parameters are passed, an array with all transactions made will be returned in json. That is, each element of the array is an object with `id`, `type`, `fromId`, `amount`, `date` and `description`. For example:
 
@@ -202,9 +202,9 @@ If an id is passed as a parameter (for example `/transactions?id=b5f5d15a-c9ad-4
 ]
 ```
 
-### GET '/balance/:id'
+### GET `/balance/:id`
 
-This endpoint has a required `id` parameter (for example '/balance/b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487') that returns how much money the user has saved. The return is a json with `id`, `name` and `balance`. Something like:
+This endpoint has a required `id` parameter (for example `/balance/b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487`) that returns how much money the user has saved. The return is a json with `id`, `name` and `balance`. Something like:
 
 ```
 {
