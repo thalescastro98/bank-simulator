@@ -19,10 +19,10 @@ export class TransactionsDB {
     const transaction = await pg.transaction(async trx => {
       const userBalance = await BalanceDB.getUserBalance(fromId, trx);
       if (userBalance.balance < Number(amount)) throw new ErrorMessage(400, { error: "This user don't have this amount of money." });
-      const inserction = await trx('transactions')
+      const insertion = await trx('transactions')
         .insert({ type: 'debit', fromId: fromId, amount: -amount, description: `${name} withdrew R$${amount}.` })
         .returning('*');
-      return inserction[0];
+      return insertion[0];
     });
     return transaction;
   };
@@ -31,13 +31,13 @@ export class TransactionsDB {
     const transaction = await pg.transaction(async trx => {
       const userBalance = await BalanceDB.getUserBalance(fromId, trx);
       if (userBalance.balance < Number(amount)) throw new ErrorMessage(400, { error: "This user don't have this amount of money." });
-      const inserction1 = await trx('transactions')
+      const insertion1 = await trx('transactions')
         .insert({ type: 'debit', fromId: fromId, amount: -amount, description: `${fromName} transferred R$${amount} to ${toName}.` })
         .returning('*');
-      const inserction2 = await trx('transactions')
+      const insertion2 = await trx('transactions')
         .insert({ type: 'credit', fromId: toId, amount: amount, description: `${fromName} transferred R$${amount} to ${toName}.` })
         .returning('*');
-      return { from: inserction1[0], to: inserction2[0] };
+      return { from: insertion1[0], to: insertion2[0] };
     });
     return transaction;
   };
