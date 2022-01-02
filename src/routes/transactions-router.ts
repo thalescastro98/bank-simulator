@@ -14,8 +14,6 @@ transactionsRouter.get('/', async (req: any, res: any) => {
   }
 });
 
-transactionsRouter.use(express.json());
-
 transactionsRouter.post('/', async (req: any, res: any) => {
   try {
     const body = joiHandling(transactionsSchema, req.body);

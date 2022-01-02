@@ -7,6 +7,8 @@ export const buildApp = () => {
 
   app.use(authenticator);
 
+  app.use(express.json());
+
   app.get('/', async (req: any, res: any) => {
     res.send('Working');
   });

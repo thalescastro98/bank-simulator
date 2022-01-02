@@ -4,8 +4,6 @@ import { registerUserService } from '../service';
 
 export const registerRouter = express.Router();
 
-registerRouter.use(express.json());
-
 registerRouter.post('/', async (req: any, res: any) => {
   try {
     const body = joiHandling(registerUserSchema, req.body);

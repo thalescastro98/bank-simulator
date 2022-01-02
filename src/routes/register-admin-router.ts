@@ -4,8 +4,6 @@ import { registerAdminService } from '../service';
 
 export const registerAdminRouter = express.Router();
 
-registerAdminRouter.use(express.json());
-
 registerAdminRouter.post('/', async (req: any, res: any) => {
   try {
     const body = joiHandling(registerAdminSchema, req.body);
