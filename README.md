@@ -2,7 +2,7 @@
 
 ## Description
 
-Aiming to become a back-end developer and test my skills, I developed this API that simulates a bank in a simplified way, where the user can check his balance and make deposits, withdraws and transfers. It is possible to register users and new administrators. Also, you must be an administrator to access all endpoints.
+Aiming to become a back-end developer and test my skills, I developed this API that simulates a bank in a simplified way, where an administrator can manipulate user's accounts to check their balance and make deposits, withdraws and transfers. It is possible to register new users and new administrators. Also, you must be an administrator to access all endpoints.
 
 ## Knowledge applied to API
 
@@ -27,9 +27,25 @@ Aiming to become a back-end developer and test my skills, I developed this API t
 
 Note: Remember to use the `npm run docker-postgres` command before using the `npm run dev` and `npm run test` commands.
 
+## .env file
+
+- POSTGRES_HOST: the value of postgres host. Ex: localhost.
+
+- POSTGRES_PASSWORD: the value of postgres password. Ex: password.
+
+- POSTGRES_PORT: listening port for postgres database. Ex: 5432.
+
+- POSTGRES_DATABASE: name of database. Ex: bank_simulator
+
+- POSTGRES_USER: name of postgres user. Ex: postgres.
+
+- APP_PORT: port on which the server is listening. Ex: 8080.
+
 ## Endpoints
 
-First, remember that accessing any endpoint requires a Basic Authorization `login:password`. By default, `admin:admin` is a valid authorization. Also, in the postman folder there is a file with the endpoints examples.
+First, remember that accessing any endpoint requires a Basic Authorization `login:password`. By default, `admin:admin` is a valid authorization.
+
+In the postman folder there is a file with the endpoints examples.
 
 All information sent goes through a Joi Validator. If the information format is different from the expected format, an error will be returned.
 
@@ -53,10 +69,10 @@ If the registration is successful, a json with `id`, `name`, `cpf` and `email` o
 
 ```
 {
-    "id": "b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487",
+    "id": "5340777d-b739-45e4-8660-8819c04030fa",
     "name": "john",
     "cpf": "77180560073",
-    "email": "example@hotmail.com"
+    "email": "example@gmail.com"
 }
 ```
 
@@ -87,118 +103,155 @@ As a result of registration, Basic Authorization will allow `example:123456` as 
 
 This endpoint will be where deposit, withdraw and transfer transactions occur.
 
-To make a deposit or withdraw, you need to send a json with `type` (this must be `deposit` or `withdraw`), `fromId` (uuid of the user who will perform the operation) and `amount`. For example:
+To make a deposit, you need to send a json with `type` (this must be `deposit`), `fromId` (uuid of the user who will perform the operation) and `amount`. For example:
 
 ```
 {
     "type":"deposit",
-    "fromId":"b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487",
+    "fromId":"5340777d-b739-45e4-8660-8819c04030fa",
     "amount":"123.45"
 }
 ```
 
-If a deposit succeeds, a json will be returned with `id` (uuid of the operation), `type` (in this case it will be `credit`), `fromId` (uuid of the depositing user), `amount`, `date` (UTC) and `description` (a brief description of the operation). Something like:
+If a deposit succeeds, a json will be returned with `id` (uuid of the operation), `type` (in this case it will be `credit`), `fromId` (uuid of the user who deposited money), `amount`, `date` (UTC) and `description` (a brief description of the operation). Something like:
 
 ```
 {
-    "id": "78dbf09a-0582-4e46-9cc8-cbcff0ea73c7",
+    "id": "35c86836-347d-4454-ac23-01f14061374e",
     "type": "credit",
-    "fromId": "b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487",
+    "fromId": "5340777d-b739-45e4-8660-8819c04030fa",
     "amount": "123.45",
-    "date": "2022-01-01T20:30:38.986Z",
-    "description": "john deposited $123.45."
+    "date": "2022-01-02T18:00:44.842Z",
+    "description": "john deposited R$123.45."
 }
 ```
 
-If a withdraw is successful (when sending a json with `withdraw` in `type`), the json returned will be similar to the above, but `type` will be `debit`, `amount` will be negative and `description` will change.
+To make a withdraw, you need to send a json with `type` (this must be `withdraw`), `fromId` (uuid of the user who will perform the operation) and `amount`. For example:
+
+```
+{
+    "type":"withdraw",
+    "fromId":"5340777d-b739-45e4-8660-8819c04030fa",
+    "amount":"10.99"
+}
+```
+
+If a withdraw succeeds, a json will be returned with `id` (uuid of the operation), `type` (in this case it will be `debit`), `fromId` (uuid of the user who withdrew money), `amount` (in this case `amount` will be negative), `date` and `description`. Something like:
+
+```
+{
+    "id": "a8f3d55c-5acd-4329-852d-52fdc79f16ff",
+    "type": "debit",
+    "fromId": "5340777d-b739-45e4-8660-8819c04030fa",
+    "amount": "-10.99",
+    "date": "2022-01-02T18:02:57.464Z",
+    "description": "john withdrew R$10.99."
+}
+```
 
 To make a transfer, `type` must be `transfer` and json must contain a `toId` (uuid of the user who will receive the money). For example:
 
 ```
 {
     "type":"transfer",
-    "fromId":"b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487",
+    "fromId":"5340777d-b739-45e4-8660-8819c04030fa",
     "amount":"98.76",
-    "toId":"9efb3284-1f8b-4fb9-a791-68dcd50a8df8"
+    "toId":"b80a9d08-35fa-49eb-98a1-fad32da85c81"
 }
 ```
 
-If the transfer is successful, a json will be returned with `from` and `to`, where `from` is similar to the object returned by a withdraw and `to` is similar to the object returned by a deposit, changing only the `description `. Something like:
+If the transfer is successful, a json will be returned with `from` and `to`, where `from` is similar to the object returned by a `withdraw` operation and `to` is similar to the object returned by a `deposit` operation, changing only the `description`. Something like:
 
 ```
 {
     "from": {
-        "id": "ab6b8733-a67b-4c2b-b92f-853c98ecfab8",
+        "id": "4fd34e94-f65c-4070-abdc-9912c4fcfbb9",
         "type": "debit",
-        "fromId": "b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487",
+        "fromId": "5340777d-b739-45e4-8660-8819c04030fa",
         "amount": "-98.76",
-        "date": "2022-01-01T20:38:08.438Z",
-        "description": "john transferred $98.76 to antony."
+        "date": "2022-01-02T18:07:15.391Z",
+        "description": "john transferred R$98.76 to antony."
     },
     "to": {
-        "id": "218d1af0-acbf-402d-aed3-ff5a2b8059f2",
+        "id": "7d3fe624-a9c9-48dd-b598-117a3014f946",
         "type": "credit",
-        "fromId": "9efb3284-1f8b-4fb9-a791-68dcd50a8df8",
+        "fromId": "b80a9d08-35fa-49eb-98a1-fad32da85c81",
         "amount": "98.76",
-        "date": "2022-01-01T20:38:08.438Z",
-        "description": "john transferred $98.76 to antony."
+        "date": "2022-01-02T18:07:15.391Z",
+        "description": "john transferred R$98.76 to antony."
     }
 }
 ```
 
 ### `GET /transactions`
 
-This endpoint has `id` as an optional parameter. If no parameters are passed, an array with all transactions made will be returned in json. That is, each element of the array is an object with `id`, `type`, `fromId`, `amount`, `date` and `description`. For example:
+This endpoint has `id` as an optional parameter. If no parameters are passed, an array with all transactions made will be returned in json. Each element of the array is an object with `id`, `type`, `fromId`, `amount`, `date` and `description`. For example:
 
 ```
 [
     {
-        "id": "ab6b8733-a67b-4c2b-b92f-853c98ecfab8",
+        "id": "4fd34e94-f65c-4070-abdc-9912c4fcfbb9",
         "type": "debit",
-        "fromId": "b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487",
+        "fromId": "5340777d-b739-45e4-8660-8819c04030fa",
         "amount": "-98.76",
-        "date": "2022-01-01T20:38:08.438Z",
-        "description": "john transferred $98.76 to antony."
+        "date": "2022-01-02T18:07:15.391Z",
+        "description": "john transferred R$98.76 to antony."
     },
     {
-        "id": "218d1af0-acbf-402d-aed3-ff5a2b8059f2",
+        "id": "7d3fe624-a9c9-48dd-b598-117a3014f946",
         "type": "credit",
-        "fromId": "9efb3284-1f8b-4fb9-a791-68dcd50a8df8",
+        "fromId": "b80a9d08-35fa-49eb-98a1-fad32da85c81",
         "amount": "98.76",
-        "date": "2022-01-01T20:38:08.438Z",
-        "description": "john transferred $98.76 to antony."
+        "date": "2022-01-02T18:07:15.391Z",
+        "description": "john transferred R$98.76 to antony."
     },
     {
-        "id": "78dbf09a-0582-4e46-9cc8-cbcff0ea73c7",
+        "id": "a8f3d55c-5acd-4329-852d-52fdc79f16ff",
+        "type": "debit",
+        "fromId": "5340777d-b739-45e4-8660-8819c04030fa",
+        "amount": "-10.99",
+        "date": "2022-01-02T18:02:57.464Z",
+        "description": "john withdrew R$10.99."
+    },
+    {
+        "id": "35c86836-347d-4454-ac23-01f14061374e",
         "type": "credit",
-        "fromId": "b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487",
+        "fromId": "5340777d-b739-45e4-8660-8819c04030fa",
         "amount": "123.45",
-        "date": "2022-01-01T20:30:38.986Z",
-        "description": "john deposited $123.45."
+        "date": "2022-01-02T18:00:44.842Z",
+        "description": "john deposited R$123.45."
     }
 ]
 ```
 
-If an id is passed as a parameter (for example `/transactions?id=b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487`) an array will be returned with all transactions made by the user whose id was informed. For example:
+If an id is passed as a parameter (for example `/transactions?id=5340777d-b739-45e4-8660-8819c04030fa`) an array will be returned with all transactions made by the user whose id was informed. For example:
 
 ```
 [
-     {
-         "id": "ab6b8733-a67b-4c2b-b92f-853c98ecfab8",
-         "type": "debit",
-         "fromId": "b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487",
-         "amount": "-98.76",
-         "date": "2022-01-01T20:38:08.438Z",
-         "description": "john transferred $98.76 to antony."
-     },
-     {
-         "id": "78dbf09a-0582-4e46-9cc8-cbcff0ea73c7",
-         "type": "credit",
-         "fromId": "b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487",
-         "amount": "123.45",
-         "date": "2022-01-01T20:30:38.986Z",
-         "description": "john deposited $123.45."
-     }
+    {
+        "id": "4fd34e94-f65c-4070-abdc-9912c4fcfbb9",
+        "type": "debit",
+        "fromId": "5340777d-b739-45e4-8660-8819c04030fa",
+        "amount": "-98.76",
+        "date": "2022-01-02T18:07:15.391Z",
+        "description": "john transferred R$98.76 to antony."
+    },
+    {
+        "id": "a8f3d55c-5acd-4329-852d-52fdc79f16ff",
+        "type": "debit",
+        "fromId": "5340777d-b739-45e4-8660-8819c04030fa",
+        "amount": "-10.99",
+        "date": "2022-01-02T18:02:57.464Z",
+        "description": "john withdrew R$10.99."
+    },
+    {
+        "id": "35c86836-347d-4454-ac23-01f14061374e",
+        "type": "credit",
+        "fromId": "5340777d-b739-45e4-8660-8819c04030fa",
+        "amount": "123.45",
+        "date": "2022-01-02T18:00:44.842Z",
+        "description": "john deposited R$123.45."
+    }
 ]
 ```
 
@@ -208,8 +261,8 @@ This endpoint has a required `id` parameter (for example `/balance/b5f5d15a-c9ad
 
 ```
 {
-     "id": "b5f5d15a-c9ad-4a60-9fe9-6e5dcef87487",
-     "name": "john",
-     "balance": "24.69"
+    "id": "5340777d-b739-45e4-8660-8819c04030fa",
+    "name": "john",
+    "balance": "13.70"
 }
 ```
