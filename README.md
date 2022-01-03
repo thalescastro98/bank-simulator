@@ -35,7 +35,7 @@ Note: Remember to use the `npm run docker-postgres` command before using the `np
 
 - POSTGRES_PORT: listening port for postgres database. Ex: 5432.
 
-- POSTGRES_DATABASE: name of database. Ex: bank_simulator
+- POSTGRES_DB: name of database. Ex: bank_simulator
 
 - POSTGRES_USER: name of postgres user. Ex: postgres.
 
