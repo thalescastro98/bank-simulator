@@ -9,7 +9,7 @@ export const pg = knex({
     port: parseInt(process.env.POSTGRES_PORT || '5432'),
     user: process.env.POSTGRES_USER || 'postgres',
     password: process.env.POSTGRES_PASSWORD,
-    database: process.env.NODE_ENV === 'test' ? 'test' : process.env.POSTGRES_DATABASE,
+    database: process.env.NODE_ENV === 'test' ? 'test' : process.env.POSTGRES_DB,
   },
   migrations: {
     directory: './src/database/migrations',
