@@ -1,7 +1,7 @@
 {
   "name": "bank-simulator",
   "version": "1.0.0",
-  "description": "",
+  "description": "API that simulates a bank in a simplified way",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -10,7 +10,7 @@
     "dev": "nodemon ./src/index.ts",
     "create_migration": "knex migrate:make --migrations-directory ./src/database/migrations -x ts",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
-    "docker-postgres":"docker run -it --rm -p 5432:5432 --name bank_simulator --env-file .env postgres:12"
+    "docker-postgres":"docker run -it --rm -p 5432:5432 --name bank_simulator --env-file .env postgres:12-alpine"
   },
   "author": "Thales Castro de Oliveira",
   "license": "ISC",
