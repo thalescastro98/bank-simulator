@@ -19,6 +19,8 @@ services:
       - "8080:8080"
     env_file:
       - ./.env
+    environment:
+      - ENVIROMENT=production
     depends_on:
       db:
         condition: service_healthy
