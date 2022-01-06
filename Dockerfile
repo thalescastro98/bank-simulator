@@ -4,6 +4,8 @@ WORKDIR /bank_simulator
 
 COPY . .
 
-RUN npm ci
+RUN npm ci 
 
-CMD npm run dev
+RUN npm run build
+
+CMD npm run start
