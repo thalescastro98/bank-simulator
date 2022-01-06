@@ -21,11 +21,13 @@ Aiming to become a back-end developer and test my skills, I developed this API t
 
 - `npm run dev` - starts the local server
 
-- `npm run test` - runs all tests
+- `npm run build` - transpile the typescript into JavaScript on **dist** folder
+
+- `npm run start` - starts the local server from the file transpiled by the command `npm run build`
+
+- `npm run test` - runs all test on **tests** folder
 
 - `npm run docker-postgres` - starts a local PostgreSQL instance for tests/local development
-
-Note: Remember to use the `npm run docker-postgres` command before using the `npm run dev` and `npm run test` commands.
 
 ## .env file
 
@@ -40,6 +42,14 @@ Note: Remember to use the `npm run docker-postgres` command before using the `np
 - POSTGRES_USER: name of postgres user. Ex: postgres.
 
 - APP_PORT: port on which the server is listening. Ex: 8080.
+
+## How start the local server
+
+There are two ways to start the server properly. For both, you will need a `.env` file as described above.
+
+The first method to start the server needs a `.env` file like `.env.example`. Once that's done, run the command `npm run docker-postgres` to start a local instance of PostgreSQL. If you like, run the command `npm run test` to run the tests. To start the server, just run the command `npm run dev` or run the commands `npm run build` and `npm run start`, in that order.
+
+The second method to start the server needs a `.env` file similar to `.env.example`, just changing `POSTGRES_HOST` to `db` (`POSTGRES_HOST=db`). Once that's done, just run the command `docker-compose up`, which will create and start the necessary containers. To stop and remove running containers, run the command `docker-compose down`.
 
 ## Endpoints
 
