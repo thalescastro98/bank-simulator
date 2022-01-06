@@ -8,6 +8,11 @@ services:
       - "5432:5432"
     env_file:
       - ./.env
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
   web:
     build: "./"
     ports:
@@ -15,4 +20,5 @@ services:
     env_file:
       - ./.env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
