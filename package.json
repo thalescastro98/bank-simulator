@@ -2,10 +2,10 @@
   "name": "bank-simulator",
   "version": "1.0.0",
   "description": "API that simulates a bank in a simplified way",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "start": "node dist/src/index.js",
+    "start": "node dist/index.js",
     "build": "tsc",
     "dev": "nodemon ./src/index.ts",
     "create_migration": "knex migrate:make --migrations-directory ./src/database/migrations -x ts",
