@@ -1,17 +1,13 @@
-import knex from 'knex';
 import * as dotenv from 'dotenv';
+import { createKnexInstace } from './create-knex-instance';
 dotenv.config();
 
-export const pg = knex({
-  client: 'pg',
-  connection: {
-    host: process.env.POSTGRES_HOST || 'localhost',
-    port: parseInt(process.env.POSTGRES_PORT || '5432'),
-    user: process.env.POSTGRES_USER || 'postgres',
-    password: process.env.POSTGRES_PASSWORD,
-    database: process.env.NODE_ENV === 'test' ? 'test' : process.env.POSTGRES_DB,
-  },
-  migrations: {
-    directory: `${__dirname}/migrations`,
-  },
-});
+export let pg = createKnexInstace(process.env.NODE_ENV === 'test' ? 'test' : process.env.POSTGRES_DB);
+
+export const setupDatabase = async () => {
+  const databaseName = process.env.POSTGRES_DB + (process.env.ENVIROMENT === 'dev' ? '_dev' : '');
+  const verifyDatabase = await pg.raw('select datname from pg_catalog.pg_database where datname=?', [databaseName]);
+  if (!verifyDatabase.rows[0]) await pg.raw(`CREATE DATABASE ${databaseName};`);
+  pg = createKnexInstace(databaseName);
+  await pg.migrate.latest();
+};
