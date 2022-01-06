@@ -12,6 +12,6 @@ export const pg = knex({
     database: process.env.NODE_ENV === 'test' ? 'test' : process.env.POSTGRES_DB,
   },
   migrations: {
-    directory: './src/database/migrations',
+    directory: `${__dirname}/migrations`,
   },
 });
