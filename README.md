@@ -51,7 +51,7 @@ There are two ways to start the server properly. For both, you will need a `.env
 
 The first method to start the server needs a `.env` file like `.env.example`. Once that's done, run the command `docker-compose up db` to start a local PostgreSQL instance. Run the command `npm run test` to run the tests or run the command `npm run dev` to start the local server. You can also change `.env` file, setting `ENVIROMENT` as `production` (`ENVIROMENT=production`), and run the commands `npm run build` and `npm run start`, in that order, to start the local server. To stop and remove the PostgreSQL container, run the command `docker-compose down db`.
 
-The second method to start the server needs a `.env` file similar to `.env.example`, just setting `POSTGRES_HOST` as `db` (`POSTGRES_HOST=db`). Once that's done, just run the command `docker-compose up`, which will create and start the necessary containers. Wait a while until the local server is started. To stop and remove running containers, run the command `docker-compose down`.
+The second method to start the server needs a `.env` file like `.env.example`. Once that's done, just run the command `docker-compose up`, which will create and start the necessary containers. Wait a while until the local server is started. To stop and remove running containers, run the command `docker-compose down`.
 
 ## Endpoints
 
