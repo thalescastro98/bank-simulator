@@ -41,15 +41,17 @@ Aiming to become a back-end developer and test my skills, I developed this API t
 
 - POSTGRES_USER: name of postgres user. Ex: postgres.
 
+- ENVIROMENT: defines if it is in the `dev` environment or in the `production` environment. Ex: production
+
 - APP_PORT: port on which the server is listening. Ex: 8080.
 
 ## How start the local server
 
 There are two ways to start the server properly. For both, you will need a `.env` file as described above.
 
-The first method to start the server needs a `.env` file like `.env.example`. Once that's done, run the command `npm run docker-postgres` to start a local instance of PostgreSQL. If you like, run the command `npm run test` to run the tests. To start the server, just run the command `npm run dev` or run the commands `npm run build` and `npm run start`, in that order.
+The first method to start the server needs a `.env` file like `.env.example`. Once that's done, run the command `docker-compose up db` to start a local PostgreSQL instance. Run the command `npm run test` to run the tests or run the command `npm run dev` to start the local server. You can also change `.env` file, setting `ENVIROMENT` as `production` (`ENVIROMENT=production`), and run the commands `npm run build` and `npm run start`, in that order, to start the local server. To stop and remove the PostgreSQL container, run the command `docker-compose down db`.
 
-The second method to start the server needs a `.env` file similar to `.env.example`, just changing `POSTGRES_HOST` to `db` (`POSTGRES_HOST=db`). Once that's done, just run the command `docker-compose up`, which will create and start the necessary containers. To stop and remove running containers, run the command `docker-compose down`.
+The second method to start the server needs a `.env` file like `.env.example`. Once that's done, just run the command `docker-compose up`, which will create and start the necessary containers. Wait a while until the local server is started. To stop and remove running containers, run the command `docker-compose down`.
 
 ## Endpoints
 

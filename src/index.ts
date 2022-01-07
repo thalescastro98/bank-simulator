@@ -1,9 +1,7 @@
-import { pg } from './database';
+import { setupDatabase } from './database';
 import { buildApp } from './app';
 
-(async () => {
-  await pg.migrate.latest();
-})();
+setupDatabase();
 
 const app = buildApp();
 

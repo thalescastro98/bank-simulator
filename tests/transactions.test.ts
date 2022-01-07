@@ -1,6 +1,5 @@
 import * as request from 'supertest';
 import { buildApp } from '../src/app';
-import { pg } from '../src/database';
 import { newDeposit, newTransfer, newWithdraw, registerUser } from './schemas';
 import { cpf } from 'cpf-cnpj-validator';
 

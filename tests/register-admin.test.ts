@@ -1,6 +1,5 @@
 import * as request from 'supertest';
 import { buildApp } from '../src/app';
-import { pg } from '../src/database';
 import { registerAdmin } from './schemas';
 
 describe('Register admin tests', () => {
