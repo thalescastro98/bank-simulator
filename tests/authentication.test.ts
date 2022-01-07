@@ -1,6 +1,5 @@
 import * as request from 'supertest';
 import { buildApp } from '../src/app';
-import { pg } from '../src/database';
 
 describe('Basic authentication test for admin', () => {
   let app: any;

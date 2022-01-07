@@ -1,5 +1,4 @@
 import { buildApp } from '../src/app';
-import { pg } from '../src/database';
 import { registerUser } from './schemas';
 import { cpf } from 'cpf-cnpj-validator';
 
