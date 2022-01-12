@@ -8,6 +8,10 @@ describe('Basic authentication test for admin', () => {
     return;
   });
 
+  it('fake', () => {
+    fail();
+  });
+
   it('Successful authentication', async () => {
     const response = await request(app).get('/').auth('admin', 'admin', { type: 'basic' });
     expect(response.status).toBe(200);
