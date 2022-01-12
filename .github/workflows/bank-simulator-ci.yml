@@ -36,7 +36,7 @@ jobs:
       - name: check test
         run:  |
           npm ci
-          npm run test --detectOpenHandles
+          npm run test --detectOpenHandles --maxWorkers=1
         env: 
           POSTGRES_PASSWORD: password
           POSTGRES_PORT: 5432
