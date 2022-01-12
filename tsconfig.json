@@ -9,5 +9,5 @@
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/"]
+  "include": ["src/","tests/"],
 }
