@@ -1,5 +1,6 @@
 import * as request from 'supertest';
 import { buildApp } from '../src/app';
+import { destroyConnection } from '../src/database';
 import { registerAdmin } from './schemas';
 
 describe('Register admin tests', () => {
@@ -7,6 +8,10 @@ describe('Register admin tests', () => {
   beforeAll(async () => {
     app = buildApp();
     return;
+  });
+
+  afterAll(async () => {
+    await destroyConnection();
   });
 
   it('Create new admin successfully', async () => {

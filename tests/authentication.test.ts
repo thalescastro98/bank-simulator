@@ -1,5 +1,6 @@
 import * as request from 'supertest';
 import { buildApp } from '../src/app';
+import { destroyConnection } from '../src/database';
 
 describe('Basic authentication test for admin', () => {
   let app: any;
@@ -8,8 +9,8 @@ describe('Basic authentication test for admin', () => {
     return;
   });
 
-  it('fake', () => {
-    fail();
+  afterAll(async () => {
+    await destroyConnection();
   });
 
   it('Successful authentication', async () => {

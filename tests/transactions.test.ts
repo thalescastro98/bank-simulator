@@ -2,12 +2,17 @@ import * as request from 'supertest';
 import { buildApp } from '../src/app';
 import { newDeposit, newTransfer, newWithdraw, registerUser } from './schemas';
 import { cpf } from 'cpf-cnpj-validator';
+import { destroyConnection } from '../src/database';
 
 describe('Transactions test', () => {
   let app: any;
   beforeAll(async () => {
     app = buildApp();
     return;
+  });
+
+  afterAll(async () => {
+    await destroyConnection();
   });
 
   describe('Deposit tests', () => {

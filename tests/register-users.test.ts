@@ -1,12 +1,17 @@
 import { buildApp } from '../src/app';
 import { registerUser } from './schemas';
 import { cpf } from 'cpf-cnpj-validator';
+import { destroyConnection } from '../src/database';
 
 describe('Register Users tests', () => {
   let app: any;
   beforeAll(async () => {
     app = buildApp();
     return;
+  });
+
+  afterAll(async () => {
+    await destroyConnection();
   });
 
   it('Create new admin successfully', async () => {

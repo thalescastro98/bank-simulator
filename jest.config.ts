@@ -4,7 +4,6 @@ export default {
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
   globalSetup: './tests/setup.ts',
-  globalTeardown: './tests/teardown.ts',
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)'],
