@@ -15,6 +15,12 @@ describe('Basic authentication test for admin', () => {
   });
 
   describe('Failed authentication', () => {
+    it('Non-existent authorization', async ()=>{
+      const response = await request(app).get('/');
+      expect(response.status).toBe(401);
+      expect(response.text).toBe('{"error":"Access Denied."}');
+    })
+
     it('Wrong password', async () => {
       const response = await request(app).get('/').auth('admin', 'admi', { type: 'basic' });
       expect(response.status).toBe(401);
