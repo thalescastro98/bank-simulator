@@ -1,0 +1,18 @@
+name: bank-simulator-lint
+
+on: push
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: use node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.13
+      - name: check lint
+        run: |
+          npm ci
+          npm run lint
+      
