@@ -12,21 +12,21 @@ jobs:
         with:
           node-version: 16.13
       - name: check lint
-        run:  |
+        run: |
           npm ci
           npm run lint
   test:
     runs-on: ubuntu-latest
-#     services:
-#       postgres:
-#         image: postgres:12-alpine
-#         env:
-#           POSTGRES_PASSWORD: password
-#           POSTGRES_DB: bank_simulator
-#           POSTGRES_USER: postgres
-#         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-#         ports:
-#           - 5432:5432
+    services:
+      postgres:
+        image: postgres:12-alpine
+        env:
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: bank_simulator
+          POSTGRES_USER: postgres
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - uses: actions/checkout@v2
       - name: use node
@@ -34,10 +34,10 @@ jobs:
         with:
           node-version: 16.13
       - name: check test
-        run:  |
+        run: |
           npm ci
           npm run test --detectOpenHandles --maxWorkers=1
-        env: 
+        env:
           POSTGRES_PASSWORD: password
           POSTGRES_PORT: 5432
           POSTGRES_DB: bank_simulator
@@ -54,7 +54,6 @@ jobs:
         with:
           node-version: 16.13
       - name: check test
-        run:  |
+        run: |
           npm ci
           npm run build
-    
