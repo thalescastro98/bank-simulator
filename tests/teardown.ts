@@ -1,8 +1,8 @@
-import { pg } from '../src/database';
+import { getConnection } from '../src/database';
 require('ts-node/register');
 
 const teardown = async () => {
-  await pg.destroy();
+  await getConnection().destroy();
 };
 
 export default teardown;
