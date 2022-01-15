@@ -3,11 +3,7 @@ import { buildApp } from '../src/app';
 import { destroyConnection } from '../src/database';
 
 describe('Basic authentication test for admin', () => {
-  let app: any;
-  beforeAll(async () => {
-    app = buildApp();
-    return;
-  });
+  const app = buildApp();
 
   afterAll(async () => {
     await destroyConnection();

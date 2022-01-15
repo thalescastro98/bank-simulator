@@ -4,11 +4,7 @@ import { destroyConnection } from '../src/database';
 import { registerAdmin } from './schemas';
 
 describe('Register admin tests', () => {
-  let app: any;
-  beforeAll(async () => {
-    app = buildApp();
-    return;
-  });
+  const app = buildApp();
 
   afterAll(async () => {
     await destroyConnection();

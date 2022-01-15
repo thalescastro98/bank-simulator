@@ -4,11 +4,7 @@ import { cpf } from 'cpf-cnpj-validator';
 import { destroyConnection } from '../src/database';
 
 describe('Register Users tests', () => {
-  let app: any;
-  beforeAll(async () => {
-    app = buildApp();
-    return;
-  });
+  const app = buildApp();
 
   afterAll(async () => {
     await destroyConnection();
