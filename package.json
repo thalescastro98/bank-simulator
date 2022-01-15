@@ -4,7 +4,7 @@
   "description": "API that simulates a bank in a simplified way",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles --maxWorkers=1",
     "start": "node dist/index.js",
     "build": "tsc -p './tsconfig.build.json'",
     "dev": "nodemon ./src/index.ts",
