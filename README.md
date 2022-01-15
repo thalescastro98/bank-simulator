@@ -2,7 +2,7 @@
 
 ## Description
 
-Aiming to become a back-end developer and test my skills, I developed this API that simulates a bank in a simplified way, where an administrator can manipulate user's accounts to check their balance and make deposits, withdraws and transfers. It is possible to register new users and new administrators. Also, you must be an administrator to access all endpoints.
+This API simulates a bank in a simplified way, where an administrator can manipulate user's accounts to check their balance and make deposits, withdraws and transfers. It is possible to register new users and new administrators. Also, you must be an administrator to access all endpoints.
 
 ## Knowledge applied to API
 
@@ -17,17 +17,17 @@ Aiming to become a back-end developer and test my skills, I developed this API t
 
 ## Scripts
 
-- `npm ci` - installs all dependencies
+- `npm ci` - installs all dependencies.
 
-- `npm run dev` - starts the local server
+- `npm run dev` - starts the local server.
 
-- `npm run build` - transpile the typescript into JavaScript on **dist** folder
+- `npm run build` - transpile the typescript into JavaScript on **dist** folder.
 
-- `npm run start` - starts the local server from the file transpiled by the command `npm run build`
+- `npm run start` - starts the local server from the file transpiled by the command `npm run build`.
 
-- `npm run test` - runs all test on **tests** folder
+- `npm run test` - runs all test on **tests** folder.
 
-- `npm run docker-postgres` - starts a local PostgreSQL instance for tests/local development
+- `npm run docker-postgres` - starts a local PostgreSQL instance for tests/local development.
 
 ## .env file
 
@@ -37,11 +37,11 @@ Aiming to become a back-end developer and test my skills, I developed this API t
 
 - POSTGRES_PORT: listening port for postgres database. Ex: 5432.
 
-- POSTGRES_DB: name of database. Ex: bank_simulator
+- POSTGRES_DB: name of database. Ex: bank_simulator.
 
 - POSTGRES_USER: name of postgres user. Ex: postgres.
 
-- ENVIROMENT: defines if it is in the `dev` environment or in the `production` environment. Ex: production
+- ENVIROMENT: defines if it is in the `dev` environment or in the `production` environment. Ex: production.
 
 - APP_PORT: port on which the server is listening. Ex: 8080.
 
